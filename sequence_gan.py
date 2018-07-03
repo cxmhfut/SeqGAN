@@ -3,7 +3,7 @@ import tensorflow as tf
 import random
 from dataloader import Gen_Data_loader, Dis_Data_loader
 from generator_ import Generator
-from discriminator import Discriminator
+from discriminator_ import Discriminator
 from rollout import ROLLOUT
 from target_lstm import TARGET_LSTM
 import pickle
