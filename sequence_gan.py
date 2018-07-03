@@ -2,9 +2,9 @@ import numpy as np
 import tensorflow as tf
 import random
 from dataloader import Gen_Data_loader, Dis_Data_loader
-from generator_ import Generator
-from discriminator_ import Discriminator
-from rollout import ROLLOUT
+from previous_version.generator_ import Generator
+from previous_version.discriminator_ import Discriminator
+from previous_version.rollout_ import ROLLOUT
 from target_lstm import TARGET_LSTM
 import pickle
 
