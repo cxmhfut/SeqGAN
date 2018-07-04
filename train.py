@@ -1,7 +1,5 @@
-import random
 import os
 import pickle
-import numpy as np
 import tensorflow as tf
 
 from configuration import *
@@ -36,7 +34,8 @@ def main(unused_argv):
     rollout_gen = Rollout(config=config_gen)
 
     # Build target LSTM
-    target_params = pickle.load(open('save/target_params_py3.pkl'))
+
+    target_params = pickle.load(open('save/target_params_py3.pkl', 'rb'))
     target_lstm = TARGET_LSTM(config=config_gen, params=target_params)  # The oracle model
 
     # Build discriminator

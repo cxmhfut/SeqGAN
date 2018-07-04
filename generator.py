@@ -51,7 +51,7 @@ class Generator(object):
         assert name in ['pretrain', 'adversarial', 'sample']
         if name == 'pretrain':
             self.input_seqs_pre = tf.placeholder(tf.int32, [None, self.sequence_length], name='input_seqs_pre')
-            self.input_seqs_mask = tf.placeholder(tf.int32, [None, self.sequence_length], name='input_seqs_mask')
+            self.input_seqs_mask = tf.placeholder(tf.float32, [None, self.sequence_length], name='input_seqs_mask')
         elif name == 'adversarial':
             self.input_seqs_adv = tf.placeholder(tf.int32, [None, self.sequence_length], name='input_seq_adv')
             self.rewards = tf.placeholder(tf.float32, [None, self.sequence_length], name='reward')

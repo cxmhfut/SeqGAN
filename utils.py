@@ -3,7 +3,7 @@ import numpy as np
 
 def generate_samples(sess, trainable_model, batch_size, generated_num, output_file):
     generated_samples = []
-    for _ in range(generated_num / batch_size):
+    for _ in range(generated_num // batch_size):
         generated_samples.extend(trainable_model.generate(sess))
 
     with open(output_file, 'w') as fout:

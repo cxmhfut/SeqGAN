@@ -62,7 +62,7 @@ class Discriminator(object):
         self.vocab_size = config.vocab_size
         self.filter_sizes = config.dis_filter_sizes
         self.num_filters = config.dis_num_filters
-        self.learning_rate = config.dis_learining_rate
+        self.learning_rate = config.dis_learning_rate
         self.embedding_size = config.dis_embedding_size
         self.l2_reg_lambda = config.dis_l2_reg_lambda
 

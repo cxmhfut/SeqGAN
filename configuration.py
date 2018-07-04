@@ -17,7 +17,7 @@ class discriminator_config(object):
         self.sequence_length = 20  # maximum input sequence length
         self.num_classes = 2  # number of class (real and fake)
         self.vocab_size = 5000  # vocabulary size, shoud be same as num_emb
-        self.dis_embedding_dim = 64  # dimension of discriminator embedding space
+        self.dis_embedding_size = 64  # dimension of discriminator embedding space
         self.dis_filter_sizes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20]  # convolutional kernel size of discriminator
         self.dis_num_filters = [100, 200, 200, 200, 200, 100, 100, 100, 100, 100, 160,
                                 160]  # number of filters of each conv. kernel
