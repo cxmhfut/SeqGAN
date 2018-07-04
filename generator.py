@@ -199,4 +199,4 @@ class Generator(object):
         """
         Helper function for sample generation
         """
-        sess.run(self.sample_word_list_reshape)
+        return sess.run(self.sample_word_list_reshape)
