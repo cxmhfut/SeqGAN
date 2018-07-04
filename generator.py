@@ -130,7 +130,7 @@ class Generator(object):
                         if j == 0:
                             lstm1_in = tf.nn.embedding_lookup(word_emb_W, self.start_token)
                         else:
-                            lstm1_in = tf.nn.embedding_lookup(word_emb_W, self.input_seqs_adv[:, j])
+                            lstm1_in = tf.nn.embedding_lookup(word_emb_W, self.input_seqs_adv[:, j - 1])
                     if j == 0:
                         state = lstm1.zero_state(self.batch_size, tf.float32)
                     output, state = lstm1(lstm1_in, state, scope=tf.get_variable_scope())
@@ -194,7 +194,8 @@ class Generator(object):
         self.build_pretrain_network()
         self.build_adversarial_network()
         self.build_sample_network()
-    def generate(self,sess):
+
+    def generate(self, sess):
         """
         Helper function for sample generation
         """
