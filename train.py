@@ -13,7 +13,7 @@ from target_lstm import TARGET_LSTM
 # Hardware related setting
 config_hardware = tf.ConfigProto()
 config_hardware.gpu_options.per_process_gpu_memory_fraction = 0.40
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 
 def main(unused_argv):
