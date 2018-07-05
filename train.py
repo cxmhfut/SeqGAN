@@ -76,7 +76,9 @@ def main(unused_argv):
                              config_train.eval_file)
             likelihood_data_loader.create_batches(config_train.eval_file)
             test_loss = target_loss(sess, target_lstm, likelihood_data_loader)
-            print('pre-train epoch ', epoch, 'test_loss ', test_loss)
+            # print('pre-train epoch ', epoch, 'test_loss ', test_loss)
+            loss_info = 'pre-train epoch ' + str(epoch) + 'test_loss ' + str(test_loss)
+            tqdm.write(loss_info)
             buffer = 'epoch:\t' + str(epoch) + '\tnll:\t' + str(test_loss) + '\n'
             log.write(buffer)
 
@@ -108,8 +110,8 @@ def main(unused_argv):
     sess.run(init_vars_uninit_op)
 
     # Start adversarial training
-    for total_batch in tqdm(range(config_train.total_batch),desc='Adversarial-Training'):
-        for _ in tqdm(range(config_train.gen_update_time),desc='Adversarial Generate Update'):
+    for total_batch in tqdm(range(config_train.total_batch), desc='Adversarial-Training'):
+        for _ in tqdm(range(config_train.gen_update_time), desc='Adversarial Generate Update'):
             samples = sess.run(generator.sample_word_list_reshape)
             feed = {"pred_seq_rollout:0": samples}
             reward_rollout = []
@@ -141,7 +143,7 @@ def main(unused_argv):
             print('total_batch: ', total_batch, 'test_loss: ', test_loss)
             log.write(buffer)
 
-        for _ in tqdm(range(config_train.dis_update_time_adv),desc='Adversarial Discriminator Update'):
+        for _ in tqdm(range(config_train.dis_update_time_adv), desc='Adversarial Discriminator Update'):
             generate_samples(sess, generator, config_train.batch_size, config_train.generated_num,
                              config_train.negative_file)
             dis_data_loader.load_train_data(config_train.positive_file, config_train.negative_file)
