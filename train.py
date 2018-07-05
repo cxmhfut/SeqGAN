@@ -77,7 +77,7 @@ def main(unused_argv):
             likelihood_data_loader.create_batches(config_train.eval_file)
             test_loss = target_loss(sess, target_lstm, likelihood_data_loader)
             # print('pre-train epoch ', epoch, 'test_loss ', test_loss)
-            loss_info = 'pre-train epoch ' + str(epoch) + 'test_loss ' + str(test_loss)
+            loss_info = 'pre-train epoch ' + str(epoch) + ' test_loss ' + str(test_loss)
             tqdm.write(loss_info)
             buffer = 'epoch:\t' + str(epoch) + '\tnll:\t' + str(test_loss) + '\n'
             log.write(buffer)
@@ -140,7 +140,8 @@ def main(unused_argv):
             likelihood_data_loader.create_batches(config_train.eval_file)
             test_loss = target_loss(sess, target_lstm, likelihood_data_loader)
             buffer = 'epoch:\t' + str(total_batch) + '\tnll:\t' + str(test_loss) + '\n'
-            print('total_batch: ', total_batch, 'test_loss: ', test_loss)
+            loss_info = 'total_batch: ' + str(total_batch) + 'test_loss: ' + str(test_loss)
+            tqdm.write(loss_info)
             log.write(buffer)
 
         for _ in tqdm(range(config_train.dis_update_time_adv), desc='Adversarial Discriminator Update'):
