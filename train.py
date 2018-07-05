@@ -9,6 +9,7 @@ from discriminator import Discriminator
 from generator import Generator
 from rollout import Rollout
 from target_lstm import TARGET_LSTM
+from tqdm import tqdm
 
 # Hardware related setting
 config_hardware = tf.ConfigProto()
@@ -63,7 +64,7 @@ def main(unused_argv):
     log = open('save/experiment-log.txt', 'w')
     print('Start pre-training generator...')
     log.write('pre-training...\n')
-    for epoch in range(config_train.pretrained_epoch_num):
+    for epoch in tqdm(range(config_train.pretrained_epoch_num), desc='Pre-Training(Generator)'):
         gen_data_loader.reset_pointer()
         for it in range(gen_data_loader.num_batch):
             batch = gen_data_loader.next_batch()
@@ -80,8 +81,7 @@ def main(unused_argv):
             log.write(buffer)
 
     print('Start pre-training discriminator...')
-    for t in range(config_train.dis_update_time_pre):
-        print("Times: " + str(t))
+    for _ in tqdm(range(config_train.dis_update_time_pre), desc='Pre-Training(Discriminator)'):
         generate_samples(sess, generator, config_train.batch_size, config_train.generated_num,
                          config_train.negative_file)
         dis_data_loader.load_train_data(config_train.positive_file, config_train.negative_file)
@@ -108,10 +108,9 @@ def main(unused_argv):
     sess.run(init_vars_uninit_op)
 
     # Start adversarial training
-    for total_batch in range(config_train.total_batch):
-        for iter_gen in range(config_train.gen_update_time):
+    for total_batch in tqdm(range(config_train.total_batch),desc='Adversarial-Training'):
+        for _ in tqdm(range(config_train.gen_update_time),desc='Adversarial Generate Update'):
             samples = sess.run(generator.sample_word_list_reshape)
-
             feed = {"pred_seq_rollout:0": samples}
             reward_rollout = []
             # calcuate the reward given in the specific stpe t by roll out
@@ -142,7 +141,7 @@ def main(unused_argv):
             print('total_batch: ', total_batch, 'test_loss: ', test_loss)
             log.write(buffer)
 
-        for _ in range(config_train.dis_update_time_adv):
+        for _ in tqdm(range(config_train.dis_update_time_adv),desc='Adversarial Discriminator Update'):
             generate_samples(sess, generator, config_train.batch_size, config_train.generated_num,
                              config_train.negative_file)
             dis_data_loader.load_train_data(config_train.positive_file, config_train.negative_file)
