@@ -135,7 +135,10 @@ def main(unused_argv):
                                    feed_dict={generator.input_seqs_adv: samples,
                                               generator.rewards: rewards})
         if total_batch % config_train.test_per_epoch == 0 or total_batch == config_train.total_batch - 1:
-            generate_samples(sess, generator, config_train.batch_size, config_train.generated_num,
+            generate_samples(sess,
+                             generator,
+                             config_train.batch_size,
+                             config_train.generated_num,
                              config_train.eval_file)
             likelihood_data_loader.create_batches(config_train.eval_file)
             test_loss = target_loss(sess, target_lstm, likelihood_data_loader)
@@ -145,7 +148,9 @@ def main(unused_argv):
             log.write(buffer)
 
         for _ in tqdm(range(config_train.dis_update_time_adv), desc='Adversarial Discriminator Update'):
-            generate_samples(sess, generator, config_train.batch_size, config_train.generated_num,
+            generate_samples(sess, generator,
+                             config_train.batch_size,
+                             config_train.generated_num,
                              config_train.negative_file)
             dis_data_loader.load_train_data(config_train.positive_file, config_train.negative_file)
 

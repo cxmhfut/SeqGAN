@@ -89,11 +89,15 @@ class Generator(object):
                         state = lstm1.zero_state(self.batch_size, tf.float32)
 
                     output, state = lstm1(lstm1_in, state, scope=tf.get_variable_scope())
-
+                    # output.shape = [batch_size, self.emb_dim], output_W.shape = [self.emb_dim,self.num_emb]
+                    # logits.shape = [batch_size, self.num_emb]
                     logits = tf.matmul(output, output_W)
                     # calculate loss
+
                     pretrain_loss_t = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=self.input_seqs_pre[:, j],
                                                                                      logits=logits)
+                    # pretrain_loss_t.shape = [batch_size, self.num_emb]
+                    # self.input_seqs_mask[:,j].shape = [batch_size]
                     pretrain_loss_t = tf.reduce_sum(tf.multiply(pretrain_loss_t, self.input_seqs_mask[:, j]))
                     self.pretrain_loss += pretrain_loss_t
                     word_predict = tf.to_int32(tf.argmax(logits, 1))
@@ -162,7 +166,7 @@ class Generator(object):
             tf.get_variable_scope().reuse_variables()
             with tf.variable_scope('lstm'):
                 lstm1 = tf.nn.rnn_cell.LSTMCell(self.hidden_dim, state_is_tuple=True)
-            with tf.device('cpu:0'), tf.variable_scope('embedding'):
+            with tf.device('/cpu:0'), tf.variable_scope('embedding'):
                 word_emb_W = tf.get_variable('word_emb_W', [self.num_emb, self.emb_dim], tf.float32, self.initializer)
             with tf.variable_scope('output'):
                 output_W = tf.get_variable('output_W', [self.emb_dim, self.num_emb], tf.float32, self.initializer)
