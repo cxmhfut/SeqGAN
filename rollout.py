@@ -65,3 +65,4 @@ class Rollout():
                 sample_rollout_rihgt = tf.transpose(tf.stack(sample_rollout_rihgt))
                 sample_rollout = tf.concat([sample_rollout_left, sample_rollout_rihgt], axis=1)
                 self.sample_rollout_step.append(sample_rollout)
+
