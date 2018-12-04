@@ -35,7 +35,6 @@ def main(unused_argv):
     rollout_gen = Rollout(config=config_gen)
 
     # Build target LSTM
-
     target_params = pickle.load(open('save/target_params_py3.pkl', 'rb'))
     target_lstm = TARGET_LSTM(config=config_gen, params=target_params)  # The oracle model
 
@@ -115,7 +114,7 @@ def main(unused_argv):
             samples = sess.run(generator.sample_word_list_reshape)
             feed = {"pred_seq_rollout:0": samples}
             reward_rollout = []
-            # calcuate the reward given in the specific stpe t by roll out
+            # calcuate the reward given in the specific step t by roll out
             for iter_roll in range(config_train.rollout_num):
                 rollout_list = sess.run(rollout_gen.sample_rollout_step, feed_dict=feed)
                 rollout_list_stack = np.vstack(rollout_list)  # shape: #batch_size * #rollout_step, #sequence length
